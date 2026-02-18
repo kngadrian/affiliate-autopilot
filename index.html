@@ -17,7 +17,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .filters button{background:#1e293b;border:1px solid #334155;color:#cbd5e1;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:13px;transition:all .2s}
 .filters button:hover,.filters button.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;padding:16px 32px 48px}
-.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;transition:transform .2s,box-shadow .2s;position:relative}
+.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;transition:transform .2s,box-shadow .2s;position:relative;cursor:pointer}
 .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
 .card.mega{border-color:#f59e0b;box-shadow:0 0 0 1px #f59e0b33}
 .score{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px}
@@ -27,12 +27,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
 .tag{background:#334155;color:#94a3b8;padding:2px 10px;border-radius:10px;font-size:11px;white-space:nowrap}
 .tag.ai{background:#3b82f622;color:#60a5fa}.tag.saas{background:#8b5cf622;color:#a78bfa}.tag.mktg{background:#10b98122;color:#34d399}.tag.content{background:#f59e0b22;color:#fbbf24}.tag.auto{background:#ec489922;color:#f472b6}
-.meta{display:flex;gap:16px;font-size:13px;color:#94a3b8;margin-bottom:12px}
+.meta{display:flex;gap:16px;font-size:13px;color:#94a3b8;margin-bottom:12px;flex-wrap:wrap}
 .meta span{display:flex;align-items:center;gap:4px}
-.card a{display:inline-block;background:#3b82f6;color:#fff;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;transition:background .2s}
-.card a:hover{background:#2563eb}
+.card .btn{display:inline-block;background:#3b82f6;color:#fff;padding:8px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;transition:background .2s;border:none;cursor:pointer}
+.card .btn:hover{background:#2563eb}
 .mega-badge{display:inline-block;background:#f59e0b;color:#0f172a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;margin-left:8px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.stats{flex-direction:column}.header,.stats,.filters,.grid{padding-left:16px;padding-right:16px}}
+
+/* Modal Styles */
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal.open{display:flex}
+.modal-content{background:#1e293b;border:1px solid #334155;border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 50px rgba(0,0,0,.5)}
+.modal-header{padding:24px 32px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:flex-start}
+.modal-header h2{font-size:24px;font-weight:700;padding-right:48px;line-height:1.3}
+.close-btn{background:none;border:none;color:#94a3b8;font-size:28px;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all .2s}
+.close-btn:hover{background:#334155;color:#e2e8f0}
+.modal-body{overflow-y:auto;flex:1}
+.detail-section{padding:24px 32px}
+.detail-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.detail-item{background:#0f172a;padding:12px 16px;border-radius:8px;border:1px solid #334155}
+.detail-item .label{font-size:11px;text-transform:uppercase;color:#94a3b8;letter-spacing:1px;margin-bottom:4px}
+.detail-item .value{font-size:15px;font-weight:600;color:#e2e8f0}
+.score-badge{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;font-size:28px;font-weight:700;margin-bottom:16px}
+.score-badge.high{background:#22c55e22;color:#22c55e;border:3px solid #22c55e}
+.score-badge.med{background:#f59e0b22;color:#f59e0b;border:3px solid #f59e0b}
+.score-badge.low{background:#64748b22;color:#64748b;border:3px solid #64748b}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;padding:0 32px;border-bottom:1px solid #334155;background:#0f172a}
+.tab{background:none;border:none;color:#94a3b8;padding:12px 20px;cursor:pointer;font-size:14px;font-weight:500;border-bottom:2px solid transparent;transition:all .2s}
+.tab:hover{color:#cbd5e1}
+.tab.active{color:#60a5fa;border-bottom-color:#60a5fa}
+.tab-content{display:none;padding:24px 32px}
+.tab-content.active{display:block}
+.tab-content h3{font-size:18px;margin-bottom:12px;color:#e2e8f0}
+.tab-content h4{font-size:16px;margin-top:20px;margin-bottom:8px;color:#cbd5e1}
+.tab-content p{color:#94a3b8;line-height:1.6;margin-bottom:12px}
+.tab-content ul{margin-left:20px;color:#94a3b8;line-height:1.8}
+.tab-content ul li{margin-bottom:6px}
+
+/* Bonus Cards */
+.bonus-card{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:20px;margin-bottom:16px}
+.bonus-card h4{color:#60a5fa;font-size:16px;margin-bottom:8px}
+.bonus-value{display:inline-block;background:#22c55e22;color:#22c55e;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:600;margin-bottom:12px}
+.bonus-card p{color:#cbd5e1;line-height:1.6;margin-bottom:8px}
+.bonus-why{background:#1e293b;padding:12px;border-radius:8px;border-left:3px solid #60a5fa;margin-top:12px}
+.bonus-why strong{color:#60a5fa;display:block;margin-bottom:4px;font-size:13px}
+
+/* Email Cards */
+.email-card{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:20px;margin-bottom:20px}
+.email-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:16px}
+.email-header h4{color:#60a5fa;font-size:16px;margin:0}
+.copy-btn{background:#3b82f6;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.copy-btn:hover{background:#2563eb}
+.copy-btn.copied{background:#22c55e}
+.email-field{margin-bottom:12px}
+.email-field .field-label{font-size:11px;text-transform:uppercase;color:#64748b;letter-spacing:1px;margin-bottom:4px}
+.email-field .field-value{color:#cbd5e1;background:#1e293b;padding:8px 12px;border-radius:6px;font-size:13px;line-height:1.6;white-space:pre-wrap}
+.email-body{color:#cbd5e1;background:#1e293b;padding:16px;border-radius:8px;font-size:14px;line-height:1.8;white-space:pre-wrap;font-family:inherit}
+
+/* Generate Button */
+.generate-btn{background:linear-gradient(135deg,#a78bfa,#60a5fa);color:#fff;border:none;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-block;margin-top:16px}
+.generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(167,139,250,.3)}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr}.stats{flex-direction:column}.header,.stats,.filters,.grid{padding-left:16px;padding-right:16px}.modal-content{margin:10px;max-height:95vh}.modal-header,.detail-section,.tabs,.tab-content{padding-left:20px;padding-right:20px}.detail-row{grid-template-columns:1fr}.email-header{flex-direction:column;align-items:stretch}}
 </style>
 </head>
 <body>
@@ -55,8 +112,176 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <button data-filter="Automation">⚡ Automation</button>
 </div>
 <div class="grid" id="grid"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modalTitle"></h2>
+<button class="close-btn" onclick="closeModal()">×</button>
+</div>
+<div class="tabs">
+<button class="tab active" onclick="switchTab('brief')">📋 Brief</button>
+<button class="tab" onclick="switchTab('bonuses')">🎁 Bonuses</button>
+<button class="tab" onclick="switchTab('emails')">📧 Emails</button>
+</div>
+<div class="modal-body">
+<div id="tab-brief" class="tab-content active"></div>
+<div id="tab-bonuses" class="tab-content"></div>
+<div id="tab-emails" class="tab-content"></div>
+</div>
+</div>
+</div>
+
 <script>
-const DATA = [{"product_name": "Unique AI-Powered Software", "vendor": "AppAssassins", "launch_date": "2026-02-19", "jv_page_url": "https://muncheye.com/unique-ai-powered-software-6", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "AI AutoBots Pro 2.0", "vendor": "Karthik Ramani", "launch_date": "2026-04-16", "jv_page_url": "https://muncheye.com/karthik-ramani-aiautobotspro", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 8}, {"product_name": "AIBizBuilder", "vendor": "Abhi Dwivedi", "launch_date": "2026-06-30", "jv_page_url": "https://muncheye.com/aibizbuilder", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "ContentReelAI", "vendor": "Abhi Dwivedi", "launch_date": "2026-07-28", "jv_page_url": "https://muncheye.com/player", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "Email Mastery Workshop", "vendor": "Matt Garrett", "launch_date": "2027-03-02", "jv_page_url": "https://muncheye.com/email-mastery-workshop", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 27.0, "commission_percent": 50, "is_mega_launch": false, "score": 7}, {"product_name": "One Prompt Apps", "vendor": "Tony Hayes", "launch_date": "2026-02-15", "jv_page_url": "https://muncheye.com/one-prompt-apps", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "LeadhunterX AI", "vendor": "Arpit Jain", "launch_date": "2026-02-21", "jv_page_url": "https://muncheye.com/leadhunterx-ai", "platform": "JVZoo", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "AIOptimizer", "vendor": "Abhi Dwivedi", "launch_date": "2026-02-24", "jv_page_url": "https://muncheye.com/aioptimizer", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "AffiSuite AI", "vendor": "ClicksBotz", "launch_date": "2026-02-24", "jv_page_url": "https://muncheye.com/webapp", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Pinpoint Mail Pro: Your AI Email Toolkit", "vendor": "Darren Langdon", "launch_date": "2026-02-25", "jv_page_url": "https://muncheye.com/pinpoint-mail-pro-your-ai-email-toolkit", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "SaaS", "Digital Marketing"], "price_usd": 7.95, "commission_percent": 75, "is_mega_launch": false, "score": 6}, {"product_name": "Tor Email: Inbox Assassin - 99.9% Accuracy Email Cleaning Engine", "vendor": "M. Wafaee", "launch_date": "2026-03-01", "jv_page_url": "https://muncheye.com/tor-email-jv-page-earn-80-commission-on-the-hottest-email-verifier", "platform": "JVZoo", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 37.0, "commission_percent": 80, "is_mega_launch": false, "score": 6}, {"product_name": "TrafficGram AI", "vendor": "Cindy Donovan", "launch_date": "2026-03-03", "jv_page_url": "https://muncheye.com/trafficgram-ai", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "AiVideoClipStitcherFx", "vendor": "Firas Alameh", "launch_date": "2026-03-06", "jv_page_url": "https://muncheye.com/ai-launch-8", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "ZenChain", "vendor": "Ricky Mataka", "launch_date": "2026-03-09", "jv_page_url": "https://muncheye.com/zenchain-100x-inner-circle-10k-up-for-grabs", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 6}, {"product_name": "Whitelabel Software Lab", "vendor": "Richard Fairbairn", "launch_date": "2026-03-09", "jv_page_url": "https://muncheye.com/wlsl-platform", "platform": "JVZoo", "niche_categories": ["SaaS"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Quick Start Internet Marketing AI", "vendor": "Matt Garrett", "launch_date": "2026-03-10", "jv_page_url": "https://muncheye.com/mat1-quick-start-internet-marketing", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 17.0, "commission_percent": 75, "is_mega_launch": false, "score": 6}, {"product_name": "Open Claw Cracked AI", "vendor": "Karthik Ramani et al", "launch_date": "2026-03-17", "jv_page_url": "https://muncheye.com/openclawcrackedai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": true, "score": 6}, {"product_name": "AICoaches2", "vendor": "Ben Murray et al", "launch_date": "2026-04-07", "jv_page_url": "https://muncheye.com/aicoaches2", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Cre8ify AI", "vendor": "LogicBeam Softwares", "launch_date": "2026-05-16", "jv_page_url": "https://muncheye.com/cre8ifyai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "AI Saas Builder", "vendor": "Yogesh Agarwal", "launch_date": "2026-07-10", "jv_page_url": "https://muncheye.com/aisaasbuilder-july10-2026", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 27.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Marketpresso AI", "vendor": "Karthik Ramani", "launch_date": "2026-07-21", "jv_page_url": "https://muncheye.com/marketpressoal", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 6}, {"product_name": "AI Ebook Hub", "vendor": "Yogesh Agarwal", "launch_date": "2026-07-24", "jv_page_url": "https://muncheye.com/aiebookhub-july24-2026", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 27.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "XmasSuite", "vendor": "LogicBeam Softwares", "launch_date": "2026-07-24", "jv_page_url": "https://muncheye.com/logicbeam-softwares-xmassuite", "platform": "JVZoo", "niche_categories": ["SaaS"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "TokBuilder", "vendor": "Ben Murray", "launch_date": "2026-08-04", "jv_page_url": "https://muncheye.com/tokbuilder", "platform": "JVZoo", "niche_categories": ["SaaS"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "EvilAI", "vendor": "Ben Murray", "launch_date": "2026-08-18", "jv_page_url": "https://muncheye.com/evilai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Better Prompts", "vendor": "Karthik Ramani", "launch_date": "2026-08-19", "jv_page_url": "https://muncheye.com/betterprompts", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 6}, {"product_name": "AIPromoter", "vendor": "Abhi Dwivedi", "launch_date": "2026-08-25", "jv_page_url": "https://muncheye.com/aipromoter", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Prompt Engine Pro", "vendor": "Karthik Ramani et al", "launch_date": "2026-10-21", "jv_page_url": "https://muncheye.com/karthik-ramani-et-al-prompt-engine-pro", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 6}, {"product_name": "AIAgentic", "vendor": "Abhi Dwivedi", "launch_date": "2026-10-27", "jv_page_url": "https://muncheye.com/aiagentic", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "AppGen Ai", "vendor": "Clicks Botz", "launch_date": "2026-11-12", "jv_page_url": "https://muncheye.com/clicksbotz-ai-ecomstore", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "KinderBooks AI", "vendor": "Clicks Botz", "launch_date": "2026-12-08", "jv_page_url": "https://muncheye.com/clicksbotz-ai-webhost", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "AIBlocks", "vendor": "Ifiok Nkem", "launch_date": "2026-12-17", "jv_page_url": "https://muncheye.com/ifiok-nkem-marketingblocks-v4", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Adpreso AI", "vendor": "Karthik Ramani et al", "launch_date": "2026-12-23", "jv_page_url": "https://muncheye.com/adpresoai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": true, "score": 6}, {"product_name": "AISites", "vendor": "Abhi Dwivedi", "launch_date": "2026-12-29", "jv_page_url": "https://muncheye.com/aisites", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "Create Psalm Kids Bible Verse Coloring Books with AI Prompts", "vendor": "Nhidigicolr", "launch_date": "2026-02-18", "jv_page_url": "https://muncheye.com/create-psalm-kids-bible-verse-coloring-books-with-ai-prompts", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 16.9, "commission_percent": 30, "is_mega_launch": false, "score": 5}, {"product_name": "aiUniBot", "vendor": "Ashwath Shivaram", "launch_date": "2026-02-20", "jv_page_url": "https://muncheye.com/ashwath-shivaram-ai-unibot", "platform": "Launchpad", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "[PLR] AI Prompt & Template Pack for YouTube Growth", "vendor": "Firelaunchers", "launch_date": "2026-03-03", "jv_page_url": "https://muncheye.com/firelauchers-ai-prompt-template-pack-for-youtube-growth-with-plr", "platform": "WarriorPlus", "niche_categories": ["AI Tools"], "price_usd": 7.95, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "Profit Clones AI", "vendor": "Aidan Corkery", "launch_date": "2026-03-06", "jv_page_url": "https://muncheye.com/profit-clones-ai", "platform": "WarriorPlus", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 100, "is_mega_launch": false, "score": 5}, {"product_name": "Prezenta Ai", "vendor": "Dr. Amit Pareek et al", "launch_date": "2026-03-11", "jv_page_url": "https://muncheye.com/dr-amit-pareek-prezenta-ai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "AI Box", "vendor": "ClicksBotz", "launch_date": "2026-03-16", "jv_page_url": "https://muncheye.com/ai-box", "platform": "WarriorPlus", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "ClientforceAI (Confirmed)", "vendor": "Godswill Okoyomon", "launch_date": "2026-03-24", "jv_page_url": "https://muncheye.com/clientforceai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "LIVE Reel", "vendor": "Abhi Dwivedi", "launch_date": "2026-03-31", "jv_page_url": "https://muncheye.com/livereel", "platform": "JVZoo", "niche_categories": ["Content Creation"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": true, "score": 5}, {"product_name": "VidFlux Ai", "vendor": "ClicksBotz", "launch_date": "2026-04-13", "jv_page_url": "https://muncheye.com/infinitybox", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "Insta Enginee Ai", "vendor": "Dr. Amit Pareek et al", "launch_date": "2026-04-13", "jv_page_url": "https://muncheye.com/dr-amit-pareek-tube-enginee-ai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 367.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "FlowMailAI", "vendor": "Richard Fairbairn", "launch_date": "2026-04-17", "jv_page_url": "https://muncheye.com/flowmailai", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "ArtGenie AI", "vendor": "ClicksBotz", "launch_date": "2026-05-12", "jv_page_url": "https://muncheye.com/ai-funnels", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "AnimationReel", "vendor": "Abhi Dwivedi", "launch_date": "2026-05-26", "jv_page_url": "https://muncheye.com/animationreel", "platform": "JVZoo", "niche_categories": ["Content Creation"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "AI GPT 28th May", "vendor": "Anirudh Baavra | Amit Gaikwad", "launch_date": "2026-05-28", "jv_page_url": "https://muncheye.com/ai-gpt-28th-may", "platform": "WarriorPlus", "niche_categories": ["AI Tools"], "price_usd": 19.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "AutoFace AI", "vendor": "ClicksBotz", "launch_date": "2026-06-15", "jv_page_url": "https://muncheye.com/ai-enews-pro", "platform": "WarriorPlus", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}, {"product_name": "ToneCraft AI", "vendor": "ClicksBotz", "launch_date": "2026-07-13", "jv_page_url": "https://muncheye.com/gen-ai", "platform": "WarriorPlus", "niche_categories": ["AI Tools"], "price_usd": 17.0, "commission_percent": 50, "is_mega_launch": false, "score": 5}];
+const DATA = [{"product_name": "InstaDoodle", "vendor": "AdDoodle Media", "launch_date": "2026-02-20", "jv_page_url": "https://muncheye.com/instadoodle", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": true, "score": 9}, {"product_name": "Unique AI-Powered Software", "vendor": "AppAssassins", "launch_date": "2026-02-19", "jv_page_url": "https://muncheye.com/unique-ai-powered-software-6", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "AI AutoBots Pro 2.0", "vendor": "Karthik Ramani", "launch_date": "2026-04-16", "jv_page_url": "https://muncheye.com/karthik-ramani-aiautobotspro", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 8}, {"product_name": "AIBizBuilder", "vendor": "Abhi Dwivedi", "launch_date": "2026-06-30", "jv_page_url": "https://muncheye.com/aibizbuilder", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "ContentReelAI", "vendor": "Abhi Dwivedi", "launch_date": "2026-07-28", "jv_page_url": "https://muncheye.com/player", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "Email Mastery Workshop", "vendor": "Matt Garrett", "launch_date": "2027-03-02", "jv_page_url": "https://muncheye.com/email-mastery-workshop", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 27.0, "commission_percent": 50, "is_mega_launch": false, "score": 7}, {"product_name": "One Prompt Apps", "vendor": "Tony Hayes", "launch_date": "2026-02-15", "jv_page_url": "https://muncheye.com/one-prompt-apps", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "LeadhunterX AI", "vendor": "Arpit Jain", "launch_date": "2026-02-21", "jv_page_url": "https://muncheye.com/leadhunterx-ai", "platform": "JVZoo", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}];
+
+// Campaign data for InstaDoodle
+const CAMPAIGNS = {
+  "InstaDoodle": {
+    brief: {
+      strategy: "InstaDoodle hits a sweet spot: whiteboard/doodle videos consistently outperform standard video content for engagement and conversions, but creating them has always required either expensive agencies ($500-2K per video) or clunky software with steep learning curves. The angle is \"AI eliminated the skill gap\" — the DoodleAI™ engine means anyone can create professional whiteboard animations in minutes, not days. The hook targets the pain of content creation fatigue: marketers who know video converts but don't have the time, budget, or design skills to produce it. We position InstaDoodle as the shortcut that turns a text prompt into a polished doodle video. Bonus stack is designed to amplify ROI by covering what the tool doesn't — scripts, distribution strategy, and client-ready templates — making our offer the obvious choice over competing affiliates. Expected EPC target: $1.20+ given the visual demo appeal and impulse-buy price point on JVZoo.",
+      targetMarket: "Digital marketers, content creators, agency owners",
+      campaignWindow: "3-day email sequence (launch week)"
+    },
+    bonuses: [
+      {
+        name: "The Doodle Video Script Vault (50 Proven Scripts)",
+        value: 297,
+        description: "InstaDoodle gives you the video engine — but what do you *say* in those videos? This vault contains 50 fill-in-the-blank video scripts across 10 niches (real estate, fitness, ecommerce, coaching, SaaS, restaurants, dental, legal, financial services, digital marketing). Each script is pre-structured with a hook, problem, solution, and CTA — optimized for whiteboard-style storytelling. Just paste into InstaDoodle's scene timeline and hit generate.",
+        why: "The tool handles visual creation brilliantly, but most buyers will stare at a blank screen not knowing what their doodle video should actually say. This removes the #1 friction point — the script — and gets them producing finished videos in their first session."
+      },
+      {
+        name: "Doodle Profits Playbook — Client Acquisition System for Agency Owners",
+        value: 197,
+        description: "A step-by-step PDF + video guide showing exactly how to sell whiteboard animation videos as a service to local businesses and online brands. Includes pricing templates ($250-$500 per video), a cold outreach email sequence (5 emails), a sample proposal template, and a Fiverr/Upwork gig optimization guide. Built specifically for people using InstaDoodle as their production tool.",
+        why: "A huge segment of InstaDoodle buyers are agency owners and freelancers who want to resell videos. InstaDoodle is the creation tool — this bonus is the business model. It turns a software purchase into an income stream, which dramatically increases buyer satisfaction and reduces refund rates."
+      },
+      {
+        name: "YouTube & Social Distribution Toolkit — Templates, Thumbnails & Upload Checklists",
+        value: 147,
+        description: "A done-for-you distribution kit containing 20 Canva thumbnail templates designed for doodle-style videos, platform-specific upload checklists for YouTube, TikTok, Instagram Reels, Facebook, and LinkedIn (with optimal settings, hashtags, and posting times), plus a 30-day content calendar template. Also includes a guide to repurposing one doodle video into 5 pieces of content across platforms.",
+        why: "Creating the video is only half the battle — getting eyeballs on it is the other half. InstaDoodle has zero distribution features. This bonus ensures buyers actually get results from the videos they create, which means they stay excited about the tool (and don't refund)."
+      }
+    ],
+    emails: [
+      {
+        day: "Day 1 — Launch Alert / Curiosity Builder",
+        subject: "This AI turns text into whiteboard videos (just launched)",
+        preview: "No design skills. No freelancers. Just type and click.",
+        body: `Hey {{FIRST_NAME}},
+
+Quick question — when's the last time you actually *finished* making a video for your business?
+
+If you're like most marketers I know, the answer is either "too long ago" or "I paid someone way too much to do it."
+
+Here's why I'm emailing you today:
+
+A new tool called **InstaDoodle** just launched, and it does something I haven't seen before.
+
+You type in what you want — a character, an object, a scene — and its DoodleAI™ engine generates a full whiteboard animation video. The kind that used to cost $500-$2,000 from agencies.
+
+I'm talking:
+- Professional doodle characters and objects generated by AI
+- Scene-based timeline (drag, drop, done)
+- Full animation customization
+- One "Generate with AI" button that does the heavy lifting
+
+Whiteboard videos still crush it for engagement — they outperform standard video on Facebook, YouTube, and landing pages. The problem was always *making* them.
+
+That problem is gone now.
+
+I've secured an exclusive bonus package worth $641 for anyone who grabs InstaDoodle through my link (more on that tomorrow).
+
+For now, just check out what this thing can do:
+
+👉 **[See InstaDoodle in Action]({{AFFILIATE_LINK}})**
+
+Talk soon,
+{{SENDER_NAME}}
+
+P.S. This is a JVZoo launch, which means the intro price won't last. I'll share the full bonus details tomorrow — but if you're the type who acts fast, the link above is live now.`
+      },
+      {
+        day: "Day 2 — Demo / Social Proof / Bonus Reveal",
+        subject: "I made 3 doodle videos before lunch (here's the proof)",
+        preview: "Plus: $641 in bonuses when you grab it today",
+        body: `Hey {{FIRST_NAME}},
+
+Yesterday I told you about InstaDoodle — the AI whiteboard video creator.
+
+Today I want to show you why I'm actually recommending this one (I skip most launches, as you know).
+
+**Here's what sold me:**
+
+I opened the app, typed "a friendly robot explaining email marketing," and hit the Generate button. 90 seconds later I had a whiteboard animation with custom doodle characters, smooth drawing effects, and scene transitions.
+
+No templates to hunt through. No timeline headaches. The AI handled the creative work.
+
+I made 3 videos in about 40 minutes — one for a landing page, one for a social ad concept, and one explainer I could hand to a client.
+
+**What other people are saying:**
+
+Early users are reporting they're replacing $300-$500 freelancer gigs with this tool. Agency owners are adding whiteboard videos as a new service line. Content creators are using it to stand out in crowded feeds.
+
+**Now — here's what makes buying through my link different:**
+
+When you grab InstaDoodle through the link below, you get my exclusive bonus stack:
+
+🎁 **Bonus #1: Doodle Video Script Vault** (50 proven scripts across 10 niches) — Value: $297
+Never stare at a blank screen. Just pick a script, paste it in, generate.
+
+🎁 **Bonus #2: Doodle Profits Playbook** (client acquisition system for agencies) — Value: $197
+Turn InstaDoodle into a client service. Includes pricing, outreach emails, and proposal templates.
+
+🎁 **Bonus #3: YouTube & Social Distribution Toolkit** — Value: $147
+Thumbnails, upload checklists, content calendar, and a repurposing guide to get views on every video you create.
+
+**Total bonus value: $641** — yours free with InstaDoodle.
+
+👉 **[Grab InstaDoodle + All 3 Bonuses]({{AFFILIATE_LINK}})**
+
+After you purchase, forward your receipt to {{BONUS_EMAIL}} and I'll send your bonuses within 24 hours.
+
+{{SENDER_NAME}}
+
+P.S. These bonuses are designed to solve the two things InstaDoodle doesn't cover: knowing what to say in your videos, and getting people to actually watch them. The tool + these bonuses = a complete system.`
+      },
+      {
+        day: "Day 3 — Scarcity / Final Call / Deadline",
+        subject: "InstaDoodle: final hours at this price",
+        preview: "After tonight, the launch price is gone. So are my bonuses.",
+        body: `Hey {{FIRST_NAME}},
+
+I'll keep this short because the clock is the message today.
+
+**InstaDoodle's launch deal ends tonight.**
+
+After that:
+- The price goes up (this is standard for JVZoo launches — the intro pricing disappears)
+- My $641 bonus package comes down (I'm only offering it during launch week)
+
+If you've been on the fence, here's the simple math:
+
+❌ **Without InstaDoodle:** You keep paying freelancers $300-$500 per whiteboard video. Or you keep *not* making videos and leaving engagement (and money) on the table.
+
+✅ **With InstaDoodle:** You create unlimited whiteboard animations yourself. AI does the design work. You press a button. Cost: a one-time fee that's less than a single freelancer video.
+
+Add my bonuses — 50 plug-and-play scripts, a client acquisition system, and a full distribution toolkit — and you're not just buying a tool. You're buying a complete video marketing operation.
+
+This is the last email I'm sending about this.
+
+👉 **[Get InstaDoodle Before the Price Increases]({{AFFILIATE_LINK}})**
+
+Forward your receipt to {{BONUS_EMAIL}} for instant bonus access.
+
+{{SENDER_NAME}}
+
+P.S. The people who grabbed this on Day 1 are already making videos. Don't overthink it — you either want faster, cheaper whiteboard videos or you don't. If you do, the link is above. If not, no hard feelings. We'll talk about something else next week.`
+      }
+    ]
+  }
+};
 
 const tagClass = n => n.includes('AI') ? 'ai' : n.includes('SaaS') ? 'saas' : n.includes('Marketing') ? 'mktg' : n.includes('Content') ? 'content' : n.includes('Automation') ? 'auto' : '';
 const scoreClass = s => s >= 7 ? 'high' : s >= 5 ? 'med' : 'low';
@@ -69,7 +294,7 @@ document.getElementById('megaCount').textContent = DATA.filter(d=>d.is_mega_laun
 function render(filter) {
   const items = filter === 'all' ? DATA : DATA.filter(d => d.niche_categories.includes(filter));
   document.getElementById('grid').innerHTML = items.map(d => `
-    <div class="card ${d.is_mega_launch ? 'mega' : ''}">
+    <div class="card ${d.is_mega_launch ? 'mega' : ''}" onclick="openModal('${d.product_name.replace(/'/g, "\\'")}')">
       <div class="score ${scoreClass(d.score)}">${d.score}</div>
       <h3>${d.product_name}${d.is_mega_launch ? '<span class="mega-badge">MEGA</span>' : ''}</h3>
       <div class="vendor">${d.vendor} · ${d.platform}</div>
@@ -79,10 +304,183 @@ function render(filter) {
         <span>💰 $${d.price_usd}</span>
         <span>🎯 ${d.commission_percent}%</span>
       </div>
-      <a href="${d.jv_page_url}" target="_blank">View JV Page →</a>
+      <button class="btn" onclick="event.stopPropagation(); window.open('${d.jv_page_url}', '_blank')">View JV Page →</button>
     </div>
   `).join('');
 }
+
+function openModal(productName) {
+  const product = DATA.find(d => d.product_name === productName);
+  if (!product) return;
+  
+  const campaign = CAMPAIGNS[productName];
+  
+  document.getElementById('modalTitle').innerHTML = `${product.product_name}${product.is_mega_launch ? '<span class="mega-badge">MEGA</span>' : ''}`;
+  
+  // Brief Tab
+  let briefHTML = `
+    <div class="detail-section">
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px">
+        <div class="score-badge ${scoreClass(product.score)}">${product.score}</div>
+        <div>
+          <h3 style="margin:0 0 8px 0">${product.vendor}</h3>
+          <p style="margin:0;color:#94a3b8">${product.platform} · ${product.niche_categories.join(', ')}</p>
+        </div>
+      </div>
+      
+      <div class="detail-row">
+        <div class="detail-item">
+          <div class="label">Launch Date</div>
+          <div class="value">📅 ${product.launch_date}</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">Price</div>
+          <div class="value">💰 $${product.price_usd}</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">Commission</div>
+          <div class="value">🎯 ${product.commission_percent}%</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">JV Link</div>
+          <div class="value"><a href="${product.jv_page_url}" target="_blank" style="color:#60a5fa">View Page →</a></div>
+        </div>
+      </div>`;
+  
+  if (campaign && campaign.brief) {
+    briefHTML += `
+      <h3 style="margin-top:24px;margin-bottom:12px">Campaign Strategy</h3>
+      <p style="color:#cbd5e1;line-height:1.7">${campaign.brief.strategy}</p>
+      
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px">
+        <div class="detail-item">
+          <div class="label">Target Market</div>
+          <div class="value" style="font-size:13px">${campaign.brief.targetMarket}</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">Campaign Window</div>
+          <div class="value" style="font-size:13px">${campaign.brief.campaignWindow}</div>
+        </div>
+      </div>`;
+  } else {
+    briefHTML += `
+      <div style="background:#0f172a;padding:24px;border-radius:12px;margin-top:24px;text-align:center">
+        <p style="color:#64748b;margin-bottom:16px">Campaign materials not yet created for this launch.</p>
+        <button class="generate-btn" onclick="alert('Campaign generation coming soon!')">🤖 Generate Campaign with AI</button>
+      </div>`;
+  }
+  
+  briefHTML += `</div>`;
+  document.getElementById('tab-brief').innerHTML = briefHTML;
+  
+  // Bonuses Tab
+  let bonusesHTML = '<div class="detail-section">';
+  if (campaign && campaign.bonuses) {
+    const totalValue = campaign.bonuses.reduce((sum, b) => sum + b.value, 0);
+    bonusesHTML += `<h3 style="margin-bottom:20px">Exclusive Bonus Stack — Total Value: $${totalValue}</h3>`;
+    campaign.bonuses.forEach((bonus, idx) => {
+      bonusesHTML += `
+        <div class="bonus-card">
+          <h4>🎁 Bonus #${idx + 1}: ${bonus.name}</h4>
+          <div class="bonus-value">Value: $${bonus.value}</div>
+          <p>${bonus.description}</p>
+          <div class="bonus-why">
+            <strong>Why It Complements ${productName}:</strong>
+            <p style="margin:0;color:#94a3b8">${bonus.why}</p>
+          </div>
+        </div>`;
+    });
+  } else {
+    bonusesHTML += `
+      <div style="background:#0f172a;padding:32px;border-radius:12px;text-align:center">
+        <p style="color:#64748b;margin-bottom:16px">No bonuses configured yet for this launch.</p>
+        <button class="generate-btn" onclick="alert('Bonus generation coming soon!')">🎁 Generate Bonuses with AI</button>
+      </div>`;
+  }
+  bonusesHTML += '</div>';
+  document.getElementById('tab-bonuses').innerHTML = bonusesHTML;
+  
+  // Emails Tab
+  let emailsHTML = '<div class="detail-section">';
+  if (campaign && campaign.emails) {
+    emailsHTML += `<h3 style="margin-bottom:20px">3-Day Email Sequence</h3>`;
+    campaign.emails.forEach((email, idx) => {
+      emailsHTML += `
+        <div class="email-card">
+          <div class="email-header">
+            <h4>${email.day}</h4>
+            <button class="copy-btn" onclick="copyEmail(${idx}, '${productName.replace(/'/g, "\\'")}')">📋 Copy Email</button>
+          </div>
+          <div class="email-field">
+            <div class="field-label">Subject Line</div>
+            <div class="field-value">${email.subject}</div>
+          </div>
+          <div class="email-field">
+            <div class="field-label">Preview Text</div>
+            <div class="field-value">${email.preview}</div>
+          </div>
+          <div class="email-field">
+            <div class="field-label">Email Body</div>
+            <div class="email-body">${email.body}</div>
+          </div>
+        </div>`;
+    });
+  } else {
+    emailsHTML += `
+      <div style="background:#0f172a;padding:32px;border-radius:12px;text-align:center">
+        <p style="color:#64748b;margin-bottom:16px">Email sequence not yet created for this launch.</p>
+        <button class="generate-btn" onclick="alert('Email generation coming soon!')">✉️ Generate Email Sequence with AI</button>
+      </div>`;
+  }
+  emailsHTML += '</div>';
+  document.getElementById('tab-emails').innerHTML = emailsHTML;
+  
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchTab('brief');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+function copyEmail(emailIdx, productName) {
+  const campaign = CAMPAIGNS[productName];
+  if (!campaign || !campaign.emails[emailIdx]) return;
+  
+  const email = campaign.emails[emailIdx];
+  const fullEmail = `Subject: ${email.subject}\n\nPreview: ${email.preview}\n\n${email.body}`;
+  
+  navigator.clipboard.writeText(fullEmail).then(() => {
+    const btns = document.querySelectorAll('.copy-btn');
+    const btn = btns[emailIdx];
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Close modal on outside click
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target.id === 'modal') closeModal();
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
 
 document.querySelectorAll('.filters button').forEach(btn => {
   btn.addEventListener('click', () => {
