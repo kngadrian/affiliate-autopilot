@@ -89,6 +89,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .generate-btn{background:linear-gradient(135deg,#a78bfa,#60a5fa);color:#fff;border:none;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-block;margin-top:16px}
 .generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(167,139,250,.3)}
 
+/* Loading State */
+.loading{display:flex;align-items:center;justify-content:center;padding:48px;color:#94a3b8}
+
 @media(max-width:600px){.grid{grid-template-columns:1fr}.stats{flex-direction:column}.header,.stats,.filters,.grid{padding-left:16px;padding-right:16px}.modal-content{margin:10px;max-height:95vh}.modal-header,.detail-section,.tabs,.tab-content{padding-left:20px;padding-right:20px}.detail-row{grid-template-columns:1fr}.email-header{flex-direction:column;align-items:stretch}}
 </style>
 </head>
@@ -111,7 +114,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <button data-filter="Content Creation">🎬 Content</button>
 <button data-filter="Automation">⚡ Automation</button>
 </div>
-<div class="grid" id="grid"></div>
+<div class="grid" id="grid">
+<div class="loading">Loading launches...</div>
+</div>
 
 <!-- Modal -->
 <div class="modal" id="modal">
@@ -134,162 +139,200 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <script>
-const DATA = [{"product_name": "InstaDoodle", "vendor": "AdDoodle Media", "launch_date": "2026-02-20", "jv_page_url": "https://muncheye.com/instadoodle", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": true, "score": 9}, {"product_name": "Unique AI-Powered Software", "vendor": "AppAssassins", "launch_date": "2026-02-19", "jv_page_url": "https://muncheye.com/unique-ai-powered-software-6", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 47.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "AI AutoBots Pro 2.0", "vendor": "Karthik Ramani", "launch_date": "2026-04-16", "jv_page_url": "https://muncheye.com/karthik-ramani-aiautobotspro", "platform": "JVZoo", "niche_categories": ["AI Tools"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": true, "score": 8}, {"product_name": "AIBizBuilder", "vendor": "Abhi Dwivedi", "launch_date": "2026-06-30", "jv_page_url": "https://muncheye.com/aibizbuilder", "platform": "JVZoo", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "ContentReelAI", "vendor": "Abhi Dwivedi", "launch_date": "2026-07-28", "jv_page_url": "https://muncheye.com/player", "platform": "JVZoo", "niche_categories": ["AI Tools", "Content Creation"], "price_usd": 67.0, "commission_percent": 50, "is_mega_launch": false, "score": 8}, {"product_name": "Email Mastery Workshop", "vendor": "Matt Garrett", "launch_date": "2027-03-02", "jv_page_url": "https://muncheye.com/email-mastery-workshop", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 27.0, "commission_percent": 50, "is_mega_launch": false, "score": 7}, {"product_name": "One Prompt Apps", "vendor": "Tony Hayes", "launch_date": "2026-02-15", "jv_page_url": "https://muncheye.com/one-prompt-apps", "platform": "WarriorPlus", "niche_categories": ["AI Tools", "SaaS"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}, {"product_name": "LeadhunterX AI", "vendor": "Arpit Jain", "launch_date": "2026-02-21", "jv_page_url": "https://muncheye.com/leadhunterx-ai", "platform": "JVZoo", "niche_categories": ["AI Tools", "Digital Marketing"], "price_usd": 37.0, "commission_percent": 50, "is_mega_launch": false, "score": 6}];
+// Global state
+let DATA = [];
+const CAMPAIGNS = {};
 
-// Campaign data for InstaDoodle
-const CAMPAIGNS = {
-  "InstaDoodle": {
-    brief: {
-      strategy: "InstaDoodle hits a sweet spot: whiteboard/doodle videos consistently outperform standard video content for engagement and conversions, but creating them has always required either expensive agencies ($500-2K per video) or clunky software with steep learning curves. The angle is \"AI eliminated the skill gap\" — the DoodleAI™ engine means anyone can create professional whiteboard animations in minutes, not days. The hook targets the pain of content creation fatigue: marketers who know video converts but don't have the time, budget, or design skills to produce it. We position InstaDoodle as the shortcut that turns a text prompt into a polished doodle video. Bonus stack is designed to amplify ROI by covering what the tool doesn't — scripts, distribution strategy, and client-ready templates — making our offer the obvious choice over competing affiliates. Expected EPC target: $1.20+ given the visual demo appeal and impulse-buy price point on JVZoo.",
-      targetMarket: "Digital marketers, content creators, agency owners",
-      campaignWindow: "3-day email sequence (launch week)"
-    },
-    bonuses: [
-      {
-        name: "The Doodle Video Script Vault (50 Proven Scripts)",
-        value: 297,
-        description: "InstaDoodle gives you the video engine — but what do you *say* in those videos? This vault contains 50 fill-in-the-blank video scripts across 10 niches (real estate, fitness, ecommerce, coaching, SaaS, restaurants, dental, legal, financial services, digital marketing). Each script is pre-structured with a hook, problem, solution, and CTA — optimized for whiteboard-style storytelling. Just paste into InstaDoodle's scene timeline and hit generate.",
-        why: "The tool handles visual creation brilliantly, but most buyers will stare at a blank screen not knowing what their doodle video should actually say. This removes the #1 friction point — the script — and gets them producing finished videos in their first session."
-      },
-      {
-        name: "Doodle Profits Playbook — Client Acquisition System for Agency Owners",
-        value: 197,
-        description: "A step-by-step PDF + video guide showing exactly how to sell whiteboard animation videos as a service to local businesses and online brands. Includes pricing templates ($250-$500 per video), a cold outreach email sequence (5 emails), a sample proposal template, and a Fiverr/Upwork gig optimization guide. Built specifically for people using InstaDoodle as their production tool.",
-        why: "A huge segment of InstaDoodle buyers are agency owners and freelancers who want to resell videos. InstaDoodle is the creation tool — this bonus is the business model. It turns a software purchase into an income stream, which dramatically increases buyer satisfaction and reduces refund rates."
-      },
-      {
-        name: "YouTube & Social Distribution Toolkit — Templates, Thumbnails & Upload Checklists",
-        value: 147,
-        description: "A done-for-you distribution kit containing 20 Canva thumbnail templates designed for doodle-style videos, platform-specific upload checklists for YouTube, TikTok, Instagram Reels, Facebook, and LinkedIn (with optimal settings, hashtags, and posting times), plus a 30-day content calendar template. Also includes a guide to repurposing one doodle video into 5 pieces of content across platforms.",
-        why: "Creating the video is only half the battle — getting eyeballs on it is the other half. InstaDoodle has zero distribution features. This bonus ensures buyers actually get results from the videos they create, which means they stay excited about the tool (and don't refund)."
-      }
-    ],
-    emails: [
-      {
-        day: "Day 1 — Launch Alert / Curiosity Builder",
-        subject: "This AI turns text into whiteboard videos (just launched)",
-        preview: "No design skills. No freelancers. Just type and click.",
-        body: `Hey {{FIRST_NAME}},
+// Utility: Convert product name to slug
+function slugify(name) {
+  return name.toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/--+/g, '-')
+    .trim();
+}
 
-Quick question — when's the last time you actually *finished* making a video for your business?
+// Markdown Parser
+function parseMarkdown(markdown) {
+  // Simple markdown parser - converts basic markdown to HTML
+  return markdown
+    .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(.+)$/gm, '<p>$1</p>');
+}
 
-If you're like most marketers I know, the answer is either "too long ago" or "I paid someone way too much to do it."
-
-Here's why I'm emailing you today:
-
-A new tool called **InstaDoodle** just launched, and it does something I haven't seen before.
-
-You type in what you want — a character, an object, a scene — and its DoodleAI™ engine generates a full whiteboard animation video. The kind that used to cost $500-$2,000 from agencies.
-
-I'm talking:
-- Professional doodle characters and objects generated by AI
-- Scene-based timeline (drag, drop, done)
-- Full animation customization
-- One "Generate with AI" button that does the heavy lifting
-
-Whiteboard videos still crush it for engagement — they outperform standard video on Facebook, YouTube, and landing pages. The problem was always *making* them.
-
-That problem is gone now.
-
-I've secured an exclusive bonus package worth $641 for anyone who grabs InstaDoodle through my link (more on that tomorrow).
-
-For now, just check out what this thing can do:
-
-👉 **[See InstaDoodle in Action]({{AFFILIATE_LINK}})**
-
-Talk soon,
-{{SENDER_NAME}}
-
-P.S. This is a JVZoo launch, which means the intro price won't last. I'll share the full bonus details tomorrow — but if you're the type who acts fast, the link above is live now.`
-      },
-      {
-        day: "Day 2 — Demo / Social Proof / Bonus Reveal",
-        subject: "I made 3 doodle videos before lunch (here's the proof)",
-        preview: "Plus: $641 in bonuses when you grab it today",
-        body: `Hey {{FIRST_NAME}},
-
-Yesterday I told you about InstaDoodle — the AI whiteboard video creator.
-
-Today I want to show you why I'm actually recommending this one (I skip most launches, as you know).
-
-**Here's what sold me:**
-
-I opened the app, typed "a friendly robot explaining email marketing," and hit the Generate button. 90 seconds later I had a whiteboard animation with custom doodle characters, smooth drawing effects, and scene transitions.
-
-No templates to hunt through. No timeline headaches. The AI handled the creative work.
-
-I made 3 videos in about 40 minutes — one for a landing page, one for a social ad concept, and one explainer I could hand to a client.
-
-**What other people are saying:**
-
-Early users are reporting they're replacing $300-$500 freelancer gigs with this tool. Agency owners are adding whiteboard videos as a new service line. Content creators are using it to stand out in crowded feeds.
-
-**Now — here's what makes buying through my link different:**
-
-When you grab InstaDoodle through the link below, you get my exclusive bonus stack:
-
-🎁 **Bonus #1: Doodle Video Script Vault** (50 proven scripts across 10 niches) — Value: $297
-Never stare at a blank screen. Just pick a script, paste it in, generate.
-
-🎁 **Bonus #2: Doodle Profits Playbook** (client acquisition system for agencies) — Value: $197
-Turn InstaDoodle into a client service. Includes pricing, outreach emails, and proposal templates.
-
-🎁 **Bonus #3: YouTube & Social Distribution Toolkit** — Value: $147
-Thumbnails, upload checklists, content calendar, and a repurposing guide to get views on every video you create.
-
-**Total bonus value: $641** — yours free with InstaDoodle.
-
-👉 **[Grab InstaDoodle + All 3 Bonuses]({{AFFILIATE_LINK}})**
-
-After you purchase, forward your receipt to {{BONUS_EMAIL}} and I'll send your bonuses within 24 hours.
-
-{{SENDER_NAME}}
-
-P.S. These bonuses are designed to solve the two things InstaDoodle doesn't cover: knowing what to say in your videos, and getting people to actually watch them. The tool + these bonuses = a complete system.`
-      },
-      {
-        day: "Day 3 — Scarcity / Final Call / Deadline",
-        subject: "InstaDoodle: final hours at this price",
-        preview: "After tonight, the launch price is gone. So are my bonuses.",
-        body: `Hey {{FIRST_NAME}},
-
-I'll keep this short because the clock is the message today.
-
-**InstaDoodle's launch deal ends tonight.**
-
-After that:
-- The price goes up (this is standard for JVZoo launches — the intro pricing disappears)
-- My $641 bonus package comes down (I'm only offering it during launch week)
-
-If you've been on the fence, here's the simple math:
-
-❌ **Without InstaDoodle:** You keep paying freelancers $300-$500 per whiteboard video. Or you keep *not* making videos and leaving engagement (and money) on the table.
-
-✅ **With InstaDoodle:** You create unlimited whiteboard animations yourself. AI does the design work. You press a button. Cost: a one-time fee that's less than a single freelancer video.
-
-Add my bonuses — 50 plug-and-play scripts, a client acquisition system, and a full distribution toolkit — and you're not just buying a tool. You're buying a complete video marketing operation.
-
-This is the last email I'm sending about this.
-
-👉 **[Get InstaDoodle Before the Price Increases]({{AFFILIATE_LINK}})**
-
-Forward your receipt to {{BONUS_EMAIL}} for instant bonus access.
-
-{{SENDER_NAME}}
-
-P.S. The people who grabbed this on Day 1 are already making videos. Don't overthink it — you either want faster, cheaper whiteboard videos or you don't. If you do, the link is above. If not, no hard feelings. We'll talk about something else next week.`
-      }
-    ]
+// Parse campaign brief from markdown
+function parseCampaignBrief(markdown) {
+  let strategy = '';
+  let targetMarket = '';
+  let campaignWindow = '';
+  
+  // Extract metadata from markdown frontmatter or content
+  const strategyMatch = markdown.match(/## Strategy Summary\s+([\s\S]+?)(?=\n#|$)/);
+  if (strategyMatch) {
+    strategy = strategyMatch[1].trim();
   }
-};
+  
+  const targetMatch = markdown.match(/\*\*Target Market:\*\*\s+(.+)/);
+  if (targetMatch) {
+    targetMarket = targetMatch[1].trim();
+  }
+  
+  const windowMatch = markdown.match(/\*\*Campaign Window:\*\*\s+(.+)/);
+  if (windowMatch) {
+    campaignWindow = windowMatch[1].trim();
+  }
+  
+  return { strategy, targetMarket, campaignWindow };
+}
+
+// Parse bonuses from markdown
+function parseBonuses(markdown) {
+  const bonuses = [];
+  // Split by bonus sections (## Bonus #1:, ## Bonus #2:, etc.)
+  const sections = markdown.split(/(?=^## Bonus #\d+:)/gm).filter(s => s.trim());
+  
+  sections.forEach(section => {
+    if (!section.includes('## Bonus #')) return;
+    
+    // Extract bonus name from "## Bonus #1: Name"
+    const nameMatch = section.match(/## Bonus #\d+:\s+(.+?)(?=\n)/);
+    const valueMatch = section.match(/\*\*Perceived Value:\*\*\s+\$(\d+)/);
+    const descMatch = section.match(/\*\*Description:\*\*\s+([\s\S]+?)(?=\n\n\*\*Perceived Value)/);
+    const whyMatch = section.match(/\*\*Why It Complements[^:]*:\*\*\s+([\s\S]+?)(?=\n---|\n##|$)/);
+    
+    if (nameMatch) {
+      bonuses.push({
+        name: nameMatch[1].trim(),
+        value: valueMatch ? parseInt(valueMatch[1]) : 0,
+        description: descMatch ? descMatch[1].trim() : '',
+        why: whyMatch ? whyMatch[1].trim() : ''
+      });
+    }
+  });
+  
+  return bonuses;
+}
+
+// Parse email sequence from markdown
+function parseEmailSequence(markdown) {
+  const emails = [];
+  // Split by email sections (## DAY 1, ## DAY 2, etc.)
+  const sections = markdown.split(/(?=^## DAY \d+)/gm).filter(s => s.trim());
+  
+  sections.forEach(section => {
+    if (!section.includes('## DAY')) return;
+    
+    // Extract day heading "DAY 1 — Title"
+    const dayMatch = section.match(/## (DAY \d+[^\n]*)/);
+    const subjectMatch = section.match(/\*\*Subject Line:\*\*\s+(.+)/);
+    const previewMatch = section.match(/\*\*Preview Text:\*\*\s+(.+)/);
+    const bodyMatch = section.match(/\*\*Body:\*\*\s+([\s\S]+?)(?=\n---|\n##|$)/);
+    
+    if (dayMatch && subjectMatch && bodyMatch) {
+      emails.push({
+        day: dayMatch[1].trim(),
+        subject: subjectMatch[1].trim(),
+        preview: previewMatch ? previewMatch[1].trim() : '',
+        body: bodyMatch[1].trim()
+      });
+    }
+  });
+  
+  return emails;
+}
+
+// Load campaign materials for a product
+async function loadCampaign(productName) {
+  const slug = slugify(productName);
+  const basePath = `campaigns/${slug}`;
+  
+  try {
+    // Try to fetch all three campaign files
+    const [briefRes, bonusesRes, emailsRes] = await Promise.all([
+      fetch(`${basePath}/campaign-brief.md`).catch(() => null),
+      fetch(`${basePath}/bonuses.md`).catch(() => null),
+      fetch(`${basePath}/email-sequence.md`).catch(() => null)
+    ]);
+    
+    if (!briefRes || !briefRes.ok) {
+      return null; // Campaign not found
+    }
+    
+    const briefText = await briefRes.text();
+    const bonusesText = bonusesRes && bonusesRes.ok ? await bonusesRes.text() : '';
+    const emailsText = emailsRes && emailsRes.ok ? await emailsRes.text() : '';
+    
+    // Parse the markdown files
+    const brief = parseCampaignBrief(briefText);
+    const bonuses = bonusesText ? parseBonuses(bonusesText) : [];
+    const emails = emailsText ? parseEmailSequence(emailsText) : [];
+    
+    return {
+      brief,
+      bonuses,
+      emails
+    };
+  } catch (error) {
+    console.error(`Failed to load campaign for ${productName}:`, error);
+    return null;
+  }
+}
+
+// Load all data
+async function loadData() {
+  try {
+    // Load launches data
+    const response = await fetch('launches_data.json');
+    if (!response.ok) {
+      throw new Error('Failed to load launches data');
+    }
+    
+    DATA = await response.json();
+    
+    // Update stats
+    updateStats();
+    
+    // Render initial grid
+    render('all');
+    
+    // Load campaigns in background
+    for (const product of DATA) {
+      const campaign = await loadCampaign(product.product_name);
+      if (campaign) {
+        CAMPAIGNS[product.product_name] = campaign;
+      }
+    }
+    
+    console.log('Loaded campaigns:', Object.keys(CAMPAIGNS));
+  } catch (error) {
+    console.error('Failed to load data:', error);
+    document.getElementById('grid').innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:48px;color:#ef4444">
+        <h3 style="margin-bottom:12px">Failed to Load Data</h3>
+        <p>Could not load launches_data.json. Please check the file exists and is valid JSON.</p>
+      </div>
+    `;
+  }
+}
+
+function updateStats() {
+  document.getElementById('totalCount').textContent = DATA.length;
+  document.getElementById('topCount').textContent = DATA.filter(d => d.score >= 6).length;
+  document.getElementById('avgScore').textContent = DATA.length > 0 
+    ? (DATA.reduce((a, d) => a + d.score, 0) / DATA.length).toFixed(1) 
+    : '0';
+  document.getElementById('megaCount').textContent = DATA.filter(d => d.is_mega_launch).length;
+}
 
 const tagClass = n => n.includes('AI') ? 'ai' : n.includes('SaaS') ? 'saas' : n.includes('Marketing') ? 'mktg' : n.includes('Content') ? 'content' : n.includes('Automation') ? 'auto' : '';
 const scoreClass = s => s >= 7 ? 'high' : s >= 5 ? 'med' : 'low';
-
-document.getElementById('totalCount').textContent = DATA.length;
-document.getElementById('topCount').textContent = DATA.filter(d=>d.score>=6).length;
-document.getElementById('avgScore').textContent = (DATA.reduce((a,d)=>a+d.score,0)/DATA.length).toFixed(1);
-document.getElementById('megaCount').textContent = DATA.filter(d=>d.is_mega_launch).length;
 
 function render(filter) {
   const items = filter === 'all' ? DATA : DATA.filter(d => d.niche_categories.includes(filter));
@@ -298,7 +341,7 @@ function render(filter) {
       <div class="score ${scoreClass(d.score)}">${d.score}</div>
       <h3>${d.product_name}${d.is_mega_launch ? '<span class="mega-badge">MEGA</span>' : ''}</h3>
       <div class="vendor">${d.vendor} · ${d.platform}</div>
-      <div class="tags">${d.niche_categories.map(n=>`<span class="tag ${tagClass(n)}">${n}</span>`).join('')}</div>
+      <div class="tags">${d.niche_categories.map(n => `<span class="tag ${tagClass(n)}">${n}</span>`).join('')}</div>
       <div class="meta">
         <span>📅 ${d.launch_date}</span>
         <span>💰 $${d.price_usd}</span>
@@ -347,21 +390,33 @@ function openModal(productName) {
         </div>
       </div>`;
   
-  if (campaign && campaign.brief) {
+  if (campaign && campaign.brief && campaign.brief.strategy) {
     briefHTML += `
       <h3 style="margin-top:24px;margin-bottom:12px">Campaign Strategy</h3>
-      <p style="color:#cbd5e1;line-height:1.7">${campaign.brief.strategy}</p>
+      <p style="color:#cbd5e1;line-height:1.7">${campaign.brief.strategy}</p>`;
+    
+    if (campaign.brief.targetMarket || campaign.brief.campaignWindow) {
+      briefHTML += `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px">`;
       
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px">
+      if (campaign.brief.targetMarket) {
+        briefHTML += `
         <div class="detail-item">
           <div class="label">Target Market</div>
           <div class="value" style="font-size:13px">${campaign.brief.targetMarket}</div>
-        </div>
+        </div>`;
+      }
+      
+      if (campaign.brief.campaignWindow) {
+        briefHTML += `
         <div class="detail-item">
           <div class="label">Campaign Window</div>
           <div class="value" style="font-size:13px">${campaign.brief.campaignWindow}</div>
-        </div>
-      </div>`;
+        </div>`;
+      }
+      
+      briefHTML += `</div>`;
+    }
   } else {
     briefHTML += `
       <div style="background:#0f172a;padding:24px;border-radius:12px;margin-top:24px;text-align:center">
@@ -375,7 +430,7 @@ function openModal(productName) {
   
   // Bonuses Tab
   let bonusesHTML = '<div class="detail-section">';
-  if (campaign && campaign.bonuses) {
+  if (campaign && campaign.bonuses && campaign.bonuses.length > 0) {
     const totalValue = campaign.bonuses.reduce((sum, b) => sum + b.value, 0);
     bonusesHTML += `<h3 style="margin-bottom:20px">Exclusive Bonus Stack — Total Value: $${totalValue}</h3>`;
     campaign.bonuses.forEach((bonus, idx) => {
@@ -402,8 +457,8 @@ function openModal(productName) {
   
   // Emails Tab
   let emailsHTML = '<div class="detail-section">';
-  if (campaign && campaign.emails) {
-    emailsHTML += `<h3 style="margin-bottom:20px">3-Day Email Sequence</h3>`;
+  if (campaign && campaign.emails && campaign.emails.length > 0) {
+    emailsHTML += `<h3 style="margin-bottom:20px">${campaign.emails.length}-Day Email Sequence</h3>`;
     campaign.emails.forEach((email, idx) => {
       emailsHTML += `
         <div class="email-card">
@@ -482,15 +537,17 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });
 
+// Filter buttons
 document.querySelectorAll('.filters button').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render(btn.dataset.filter);
   });
 });
 
-render('all');
+// Initialize on load
+loadData();
 </script>
 </body>
 </html>

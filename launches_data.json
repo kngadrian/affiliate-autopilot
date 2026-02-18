@@ -1,5 +1,20 @@
 [
   {
+    "product_name": "InstaDoodle",
+    "vendor": "AdDoodle Media",
+    "launch_date": "2026-02-20",
+    "jv_page_url": "https://muncheye.com/instadoodle",
+    "platform": "JVZoo",
+    "niche_categories": [
+      "AI Tools",
+      "Content Creation"
+    ],
+    "price_usd": 47.0,
+    "commission_percent": 50,
+    "is_mega_launch": true,
+    "score": 9
+  },
+  {
     "product_name": "Unique AI-Powered Software",
     "vendor": "AppAssassins",
     "launch_date": "2026-02-19",
@@ -40,7 +55,7 @@
     ],
     "price_usd": 67.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 8
   },
   {
@@ -55,8 +70,23 @@
     ],
     "price_usd": 67.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 8
+  },
+  {
+    "product_name": "AiVideoClipStitcherFx",
+    "vendor": "Firas Alameh",
+    "launch_date": "2026-03-06",
+    "jv_page_url": "https://muncheye.com/ai-launch-8",
+    "platform": "JVZoo",
+    "niche_categories": [
+      "AI Tools",
+      "Content Creation"
+    ],
+    "price_usd": 47.0,
+    "commission_percent": 50,
+    "is_mega_launch": true,
+    "score": 7
   },
   {
     "product_name": "Email Mastery Workshop",
@@ -114,7 +144,7 @@
     ],
     "price_usd": 67.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -179,14 +209,13 @@
     "score": 6
   },
   {
-    "product_name": "AiVideoClipStitcherFx",
-    "vendor": "Firas Alameh",
-    "launch_date": "2026-03-06",
-    "jv_page_url": "https://muncheye.com/ai-launch-8",
+    "product_name": "Whitelabel Software Lab",
+    "vendor": "Richard Fairbairn",
+    "launch_date": "2026-03-09",
+    "jv_page_url": "https://muncheye.com/wlsl-platform",
     "platform": "JVZoo",
     "niche_categories": [
-      "AI Tools",
-      "Content Creation"
+      "SaaS"
     ],
     "price_usd": 47.0,
     "commission_percent": 50,
@@ -205,20 +234,6 @@
     "price_usd": 37.0,
     "commission_percent": 50,
     "is_mega_launch": true,
-    "score": 6
-  },
-  {
-    "product_name": "Whitelabel Software Lab",
-    "vendor": "Richard Fairbairn",
-    "launch_date": "2026-03-09",
-    "jv_page_url": "https://muncheye.com/wlsl-platform",
-    "platform": "JVZoo",
-    "niche_categories": [
-      "SaaS"
-    ],
-    "price_usd": 47.0,
-    "commission_percent": 50,
-    "is_mega_launch": false,
     "score": 6
   },
   {
@@ -261,7 +276,21 @@
     ],
     "price_usd": 47.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
+    "score": 6
+  },
+  {
+    "product_name": "AIReputors",
+    "vendor": "Abhi Dwivedi",
+    "launch_date": "2026-04-28",
+    "jv_page_url": "https://muncheye.com/aireputors",
+    "platform": "JVZoo",
+    "niche_categories": [
+      "AI Tools"
+    ],
+    "price_usd": 67.0,
+    "commission_percent": 50,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -347,7 +376,7 @@
     ],
     "price_usd": 47.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -361,7 +390,7 @@
     ],
     "price_usd": 47.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -389,7 +418,7 @@
     ],
     "price_usd": 67.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -417,7 +446,7 @@
     ],
     "price_usd": 67.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -489,7 +518,21 @@
     ],
     "price_usd": 47.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
+    "score": 6
+  },
+  {
+    "product_name": "ClipsMateAix",
+    "vendor": "Firas Alameh",
+    "launch_date": "2030-05-21",
+    "jv_page_url": "https://muncheye.com/clipsmateai",
+    "platform": "JVZoo",
+    "niche_categories": [
+      "AI Tools"
+    ],
+    "price_usd": 47.0,
+    "commission_percent": 50,
+    "is_mega_launch": true,
     "score": 6
   },
   {
@@ -662,6 +705,20 @@
     "score": 5
   },
   {
+    "product_name": "AI Gemini 14th May",
+    "vendor": "Anirudh Baavra | Amit Gaikwad",
+    "launch_date": "2026-05-14",
+    "jv_page_url": "https://muncheye.com/ai-gemini-14th-may",
+    "platform": "WarriorPlus",
+    "niche_categories": [
+      "AI Tools"
+    ],
+    "price_usd": 19.0,
+    "commission_percent": 50,
+    "is_mega_launch": true,
+    "score": 5
+  },
+  {
     "product_name": "AnimationReel",
     "vendor": "Abhi Dwivedi",
     "launch_date": "2026-05-26",
@@ -672,49 +729,7 @@
     ],
     "price_usd": 67.0,
     "commission_percent": 50,
-    "is_mega_launch": false,
-    "score": 5
-  },
-  {
-    "product_name": "AI GPT 28th May",
-    "vendor": "Anirudh Baavra | Amit Gaikwad",
-    "launch_date": "2026-05-28",
-    "jv_page_url": "https://muncheye.com/ai-gpt-28th-may",
-    "platform": "WarriorPlus",
-    "niche_categories": [
-      "AI Tools"
-    ],
-    "price_usd": 19.0,
-    "commission_percent": 50,
-    "is_mega_launch": false,
-    "score": 5
-  },
-  {
-    "product_name": "AutoFace AI",
-    "vendor": "ClicksBotz",
-    "launch_date": "2026-06-15",
-    "jv_page_url": "https://muncheye.com/ai-enews-pro",
-    "platform": "WarriorPlus",
-    "niche_categories": [
-      "AI Tools"
-    ],
-    "price_usd": 17.0,
-    "commission_percent": 50,
-    "is_mega_launch": false,
-    "score": 5
-  },
-  {
-    "product_name": "ToneCraft AI",
-    "vendor": "ClicksBotz",
-    "launch_date": "2026-07-13",
-    "jv_page_url": "https://muncheye.com/gen-ai",
-    "platform": "WarriorPlus",
-    "niche_categories": [
-      "AI Tools"
-    ],
-    "price_usd": 17.0,
-    "commission_percent": 50,
-    "is_mega_launch": false,
+    "is_mega_launch": true,
     "score": 5
   }
 ]

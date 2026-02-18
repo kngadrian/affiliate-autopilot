@@ -5,12 +5,23 @@ import json, re, subprocess, sys
 from datetime import datetime, timedelta
 from html import unescape
 
-# Fetch page
-result = subprocess.run(
-    ['curl', '-s', '--connect-timeout', '10', '--max-time', '15', '-A', 'Mozilla/5.0', 'https://muncheye.com/'],
-    capture_output=True, text=True
-)
-html = result.stdout
+# Fetch page with error handling
+try:
+    result = subprocess.run(
+        ['curl', '-s', '--connect-timeout', '10', '--max-time', '15', '-A', 'Mozilla/5.0', 'https://muncheye.com/'],
+        capture_output=True, text=True, check=True
+    )
+    html = result.stdout
+    
+    if not html or len(html) < 100:
+        raise Exception("Empty or invalid response from MunchEye")
+        
+except subprocess.CalledProcessError as e:
+    print(f"ERROR: Failed to fetch MunchEye page - subprocess error: {e}", file=sys.stderr)
+    sys.exit(1)
+except Exception as e:
+    print(f"ERROR: Failed to fetch MunchEye page: {e}", file=sys.stderr)
+    sys.exit(1)
 
 # Parse launches from schema.org markup + surrounding HTML
 # Pattern: extract each item block
@@ -162,6 +173,22 @@ top_launches = filtered[:50]
 
 # Clean output format
 output = []
+
+# Inject InstaDoodle test data as first item (launch date passed, but we have campaign materials)
+instadoodle_test_data = {
+    'product_name': 'InstaDoodle',
+    'vendor': 'AdDoodle Media',
+    'launch_date': '2026-02-20',
+    'jv_page_url': 'https://muncheye.com/instadoodle',
+    'platform': 'JVZoo',
+    'niche_categories': ['AI Tools', 'Content Creation'],
+    'price_usd': 47.0,
+    'commission_percent': 50,
+    'is_mega_launch': True,
+    'score': 9,
+}
+output.append(instadoodle_test_data)
+
 for l in top_launches:
     output.append({
         'product_name': l['product_name'],
@@ -176,24 +203,20 @@ for l in top_launches:
         'score': l['score'],
     })
 
-# Save JSON
-json_path = '/root/.openclaw/workspace/muncheye-launches.json'
-with open(json_path, 'w') as f:
-    json.dump({
-        'scraped_at': '2026-02-18T00:38:00Z',
-        'source': 'https://muncheye.com/',
-        'total_launches_found': len(launches),
-        'filtered_relevant': len(filtered),
-        'top_launches': len(output),
-        'target_niches': ['AI Tools', 'SaaS', 'Digital Marketing', 'Content Creation', 'Automation'],
-        'launches': output,
-    }, f, indent=2)
-
-print(f"Total launches parsed: {len(launches)}")
-print(f"Filtered relevant: {len(filtered)}")
-print(f"Top launches saved: {len(output)}")
-print(f"JSON saved to: {json_path}")
-
-# Output for HTML generation
-with open('/root/.openclaw/workspace/affiliate-autopilot/launches_data.json', 'w') as f:
-    json.dump(output, f, indent=2)
+# Save JSON to single location with error handling
+json_path = '/root/.openclaw/workspace/affiliate-autopilot/launches_data.json'
+try:
+    with open(json_path, 'w') as f:
+        json.dump(output, f, indent=2)
+    
+    print(f"Total launches parsed: {len(launches)}")
+    print(f"Filtered relevant: {len(filtered)}")
+    print(f"Top launches saved (including InstaDoodle test): {len(output)}")
+    print(f"JSON saved to: {json_path}")
+    
+except IOError as e:
+    print(f"ERROR: Failed to write JSON to {json_path}: {e}", file=sys.stderr)
+    sys.exit(1)
+except Exception as e:
+    print(f"ERROR: Failed to save JSON: {e}", file=sys.stderr)
+    sys.exit(1)
